@@ -1,0 +1,7 @@
+- Java heavily relies on camelCase for almost all identifiers to maintain readability across large codebases
+- lowerCamelCase: Used for variables and method names.
+  - Examples: int itemCount, void calculateTotalAmount()
+- UpperCamelCase (PascalCase): Used for class names and interfaces.
+  - Examples: public class StudentAccount, interface TaxCalculatable
+- Capital
+  - Used exclusively for constants (static final fields). 
