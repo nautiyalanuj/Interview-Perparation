@@ -363,6 +363,10 @@ SELECT
     relname,
     age(relfrozenxid)
 FROM pg_class
+ORDER BY age(relfrozenxid) DESC;
+```
+
+As tables approach dangerous transaction
 
 ---
 
@@ -383,7 +387,3 @@ PostgreSQL primarily relies on:
 - MVCC (for visibility control)
 
 Instead of undoing every change physically, PostgreSQL stores multiple row versions.
-ORDER BY age(relfrozenxid) DESC;
-```
-
-As tables approach dangerous transaction
