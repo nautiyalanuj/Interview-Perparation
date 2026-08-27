@@ -363,6 +363,26 @@ SELECT
     relname,
     age(relfrozenxid)
 FROM pg_class
+
+---
+
+# Does PostgreSQL Write Reverse Operations?
+
+Usually, **no**.
+
+Some database systems use an UNDO log:
+
+```text
+UPDATE A
+UNDO A
+```
+
+PostgreSQL primarily relies on:
+
+- WAL (for REDO/recovery)
+- MVCC (for visibility control)
+
+Instead of undoing every change physically, PostgreSQL stores multiple row versions.
 ORDER BY age(relfrozenxid) DESC;
 ```
 
