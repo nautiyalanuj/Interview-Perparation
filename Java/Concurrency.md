@@ -1,4 +1,4 @@
-# 1. Race Conditions
+# Problem => Race Conditions
 
 If two threads execute these steps simultaneously, updates can be lost. This is called a **race condition**.
 
@@ -19,7 +19,13 @@ is internally:
 
 ---
 
-# 2. Synchronization (`synchronized`)
+# Interview-Friendly Answer
+
+> Java handles concurrency using threads, synchronization mechanisms (`synchronized`, `Lock`), memory visibility controls (`volatile`), atomic operations (`AtomicInteger`), and high-level concurrency utilities from `java.util.concurrent` such as `ExecutorService`, `CompletableFuture`, `ConcurrentHashMap`, and `BlockingQueue`.
+
+---
+
+# 1. Synchronization (`synchronized`)
 
 Java provides intrinsic locks (monitors) through the `synchronized` keyword.
 
@@ -55,7 +61,7 @@ void increment() {
 
 ---
 
-# 3. Memory Visibility and `volatile`
+# 2. Memory Visibility and `volatile`
 
 Even if only one thread writes to a variable, other threads may not immediately see the updated value because of CPU caching.
 
@@ -90,7 +96,7 @@ count++; // Still NOT thread-safe
 
 ---
 
-# 5. Atomic Variables
+# 3. Atomic Variables
 
 For lock-free thread-safe operations, Java provides atomic classes.
 
@@ -116,7 +122,7 @@ AtomicReference
 
 ---
 
-# 6. Explicit Locks
+# 4. Explicit Locks
 
 Java provides more flexible locking APIs via `Lock`.
 
@@ -147,149 +153,7 @@ Supports:
 
 ---
 
-# 7. Thread Pools
-
-Creating threads repeatedly is expensive.
-
-Instead, use a thread pool:
-
-```java
-ExecutorService executor =
-    Executors.newFixedThreadPool(10);
-
-executor.submit(() -> {
-    System.out.println("Task running");
-});
-```
-
-### Benefits
-
-- Reuses threads.
-- Improves performance.
-- Controls resource usage.
-
----
-
-# 8. Callable and Future
-
-`Runnable` cannot return a value.
-
-Use `Callable` for tasks that return results.
-
-```java
-Callable<Integer> task = () -> 42;
-
-Future<Integer> future =
-    executor.submit(task);
-
-Integer result = future.get();
-```
-
-### Future Features
-
-```java
-future.isDone();
-future.cancel(true);
-future.get();
-```
-
----
-
-# 9. CompletableFuture
-
-Modern asynchronous programming in Java.
-
-```java
-CompletableFuture
-    .supplyAsync(() -> fetchData())
-    .thenApply(data -> process(data))
-    .thenAccept(System.out::println);
-```
-
-### Parallel Example
-
-```java
-CompletableFuture<User> userFuture =
-        CompletableFuture.supplyAsync(
-            () -> loadUser());
-
-CompletableFuture<List<Order>> orderFuture =
-        CompletableFuture.supplyAsync(
-            () -> loadOrders());
-
-CompletableFuture.allOf(
-    userFuture,
-    orderFuture
-).join();
-```
-
-### Advantages
-
-- Non-blocking workflows.
-- Easy async composition.
-- Better readability than nested callbacks.
-
----
-
-# 10. Concurrent Collections
-
-Standard collections are not thread-safe.
-
-Use concurrent alternatives:
-
-```java
-ConcurrentHashMap
-CopyOnWriteArrayList
-ConcurrentLinkedQueue
-BlockingQueue
-```
-
-### Example
-
-```java
-Map<Integer, String> map =
-    new ConcurrentHashMap<>();
-
-map.put(1, "Java");
-```
-
-### Benefits
-
-- Safe concurrent access.
-- Higher throughput than synchronized collections.
-
----
-
-# 11. BlockingQueue (Producer-Consumer)
-
-A common concurrency pattern.
-
-```java
-BlockingQueue<Task> queue =
-    new LinkedBlockingQueue<>();
-```
-
-### Producer
-
-```java
-queue.put(task);
-```
-
-### Consumer
-
-```java
-Task task = queue.take();
-```
-
-### Uses
-
-- Thread pools.
-- Job processing systems.
-- Message queues.
-
----
-
-# 12. ReadWriteLock
+# 5. ReadWriteLock
 
 Useful when reads are much more frequent than writes.
 
@@ -329,66 +193,62 @@ try {
 ❌ Only one writer allowed.
 
 ---
+# Utilities
 
----
+## Concurrent Collections
 
-# 14. Virtual Threads (Java 21+)
+Standard collections are not thread-safe.
 
-Virtual threads are lightweight threads managed by the JVM.
+Use concurrent alternatives:
 
 ```java
-Thread.startVirtualThread(() -> {
-    doWork();
-});
+ConcurrentHashMap
+CopyOnWriteArrayList
+ConcurrentLinkedQueue
+BlockingQueue
 ```
 
-### Executor Example
+### Example
 
 ```java
-try (var executor =
-         Executors.newVirtualThreadPerTaskExecutor()) {
+Map<Integer, String> map =
+    new ConcurrentHashMap<>();
 
-    executor.submit(() -> callService());
-}
+map.put(1, "Java");
 ```
 
 ### Benefits
 
-- Millions of concurrent tasks.
-- Low memory footprint.
-- Ideal for I/O-heavy applications.
-- Simpler than callback-based asynchronous code.
+- Safe concurrent access.
+- Higher throughput than synchronized collections.
 
----
 
-# Java Concurrency Layers
+## BlockingQueue (Producer-Consumer)
 
-## Layer 1: Thread Management
+A common concurrency pattern.
 
-- Thread
-- ExecutorService
-- ForkJoinPool
-- Virtual Threads
+```java
+BlockingQueue<Task> queue =
+    new LinkedBlockingQueue<>();
+```
 
----
+### Producer
 
-## Layer 2: Thread Safety
+```java
+queue.put(task);
+```
 
-- synchronized
-- Lock
-- ReentrantLock
-- volatile
-- Atomic Classes
+### Consumer
 
----
+```java
+Task task = queue.take();
+```
 
-## Layer 3: High-Level Concurrency
+### Uses
 
-- CompletableFuture
-- ConcurrentHashMap
-- BlockingQueue
-- ReadWriteLock
-- ForkJoin Framework
+- Thread pools.
+- Job processing systems.
+- Message queues.
 
 ---
 
@@ -396,20 +256,12 @@ try (var executor =
 
 | Problem | Java Solution |
 |----------|---------------|
-| Run tasks concurrently | Thread, ExecutorService |
 | Protect shared state | synchronized, Lock |
 | Memory visibility | volatile |
 | Atomic updates | AtomicInteger |
-| Reuse worker threads | Thread Pool |
-| Async programming | CompletableFuture |
+| Read-heavy workloads | ReadWriteLock |
 | Thread-safe collections | ConcurrentHashMap |
 | Producer-consumer workflow | BlockingQueue |
-| Read-heavy workloads | ReadWriteLock |
-| Parallel computation | ForkJoinPool |
-| Massive concurrency | Virtual Threads |
 
 ---
 
-# Interview-Friendly Answer
-
-> Java handles concurrency using threads, synchronization mechanisms (`synchronized`, `Lock`), memory visibility controls (`volatile`), atomic operations (`AtomicInteger`), and high-level concurrency utilities from `java.util.concurrent` such as `ExecutorService`, `CompletableFuture`, `ConcurrentHashMap`, and `BlockingQueue`. Modern Java (Java 21+) also introduces Virtual Threads, allowing millions of lightweight concurrent tasks while simplifying concurrent application development.
