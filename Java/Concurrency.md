@@ -1,16 +1,3 @@
-# How Concurrency is Handled in Java
-
-Concurrency in Java is handled through a combination of:
-
-1. **Threads vs Runnable** for parallel execution.
-2. **Synchronization mechanisms** for protecting shared resources.
-3. **Memory visibility controls** to ensure changes are visible across threads.
-4. **High-level concurrency utilities** provided by `java.util.concurrent`.
-
-At a high level, Java allows multiple tasks to execute concurrently while providing mechanisms to prevent race conditions and maintain data consistency.
-
----
-
 # 1. Race Conditions
 
 The operation:
