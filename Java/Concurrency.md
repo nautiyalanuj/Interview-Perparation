@@ -1,5 +1,8 @@
 # 1. Race Conditions
 
+If two threads execute these steps simultaneously, updates can be lost. This is called a **race condition**.
+
+
 The operation:
 
 ```java
@@ -13,8 +16,6 @@ is internally:
 2. Increment value
 3. Write updated value
 ```
-
-If two threads execute these steps simultaneously, updates can be lost. This is called a **race condition**.
 
 ---
 
