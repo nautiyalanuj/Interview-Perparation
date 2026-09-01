@@ -2,7 +2,7 @@
 
 Concurrency in Java is handled through a combination of:
 
-1. **Threads** for parallel execution.
+1. **Threads vs Runnable** for parallel execution.
 2. **Synchronization mechanisms** for protecting shared resources.
 3. **Memory visibility controls** to ensure changes are visible across threads.
 4. **High-level concurrency utilities** provided by `java.util.concurrent`.
@@ -11,52 +11,7 @@ At a high level, Java allows multiple tasks to execute concurrently while provid
 
 ---
 
-# 1. Threads: The Foundation
-
-A thread is the smallest unit of execution in Java.
-
-## Creating a Thread
-
-```java
-class MyTask extends Thread {
-    @Override
-    public void run() {
-        System.out.println("Task running");
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        MyTask thread = new MyTask();
-        thread.start();
-    }
-}
-```
-
-## Using Runnable (Preferred)
-
-```java
-Runnable task = () -> System.out.println("Task running");
-
-Thread thread = new Thread(task);
-thread.start();
-```
-
----
-
-# 2. Race Conditions
-
-When multiple threads access and modify shared data simultaneously, race conditions can occur.
-
-```java
-class Counter {
-    int count = 0;
-
-    void increment() {
-        count++;
-    }
-}
-```
+# 1. Race Conditions
 
 The operation:
 
@@ -72,27 +27,11 @@ is internally:
 3. Write updated value
 ```
 
-If two threads execute these steps simultaneously, updates can be lost.
-
-### Example
-
-Expected:
-
-```text
-2000
-```
-
-Possible actual result:
-
-```text
-1873
-```
-
-This is called a **race condition**.
+If two threads execute these steps simultaneously, updates can be lost. This is called a **race condition**.
 
 ---
 
-# 3. Synchronization (`synchronized`)
+# 2. Synchronization (`synchronized`)
 
 Java provides intrinsic locks (monitors) through the `synchronized` keyword.
 
@@ -128,7 +67,7 @@ void increment() {
 
 ---
 
-# 4. Memory Visibility and `volatile`
+# 3. Memory Visibility and `volatile`
 
 Even if only one thread writes to a variable, other threads may not immediately see the updated value because of CPU caching.
 
@@ -402,37 +341,6 @@ try {
 ❌ Only one writer allowed.
 
 ---
-
-# 13. Fork/Join Framework
-
-Designed for divide-and-conquer algorithms.
-
-```java
-ForkJoinPool pool =
-    new ForkJoinPool();
-```
-
-### Workflow
-
-```text
-Split Task
-    ↓
-Execute Subtasks
-    ↓
-Combine Results
-```
-
-Commonly used for:
-
-- Parallel computations.
-- Recursive algorithms.
-- Data processing.
-
-Used internally by:
-
-```java
-parallelStream()
-```
 
 ---
 
