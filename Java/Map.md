@@ -15,6 +15,23 @@
 | Typical Usage | Fast lookup | Ordered iteration, LRU cache | Sorted data | Concurrent access |
 
 ---
+# Functions
+- Map<String, Integer> m = new HashMap<>(); 
+- m.put("a", 1); 
+- m.get("a");                 // 1 
+- m.getOrDefault("z", 0);     // 0 
+- m.containsKey("a"); 
+- m.remove("a"); 
+- m.size(); 
+- m.putIfAbsent("a", 1); 
+- Traversal 
+```
+for (Map.Entry<String, Integer> entry : map.entrySet())
+{
+        System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+} 
+```
+---
 
 # Why Resize?
 
