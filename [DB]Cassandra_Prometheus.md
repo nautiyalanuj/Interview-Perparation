@@ -397,6 +397,13 @@ However:
 Prometheus was specifically designed for these scenarios.
 
 ---
+# 8. Why Not Use Cassandra for metrics?
+- Prometheus uses PromQL, which is explicitly designed for time-series analysis. It allows you to calculate rates, increases, percentiles (like p99 latency), and aggregations across thousands of metrics with a single line of code.
+  - Cassandra uses CQL (Cassandra Query Language). CQL is rigid and does not natively support time-series aggregations or mathematical functions over moving time windows. Doing this requires pulling raw data into your application layer or using an external analytics engine like Apache Spark.
+- Prometheus indexes every label/tag combination automatically, allowing you to instantly filter metrics by container, region, or microservice.
+ - Cassandra requires you to design your primary keys and clustering columns upfront based on your exact query patterns. If you need to ad-hoc query metrics by a new tag, you often have to redesign your entire table schema or build high-overhead secondary indexes.
+- s
+---
 
 # 8. Why Not Use Cassandra for User Profiles?
 
