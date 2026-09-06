@@ -26,7 +26,7 @@
   - If users rarely request the same data, most requests will be cache misses
 
 # Problem with cache 
-- Cache invalidation 
+- Cache consistency problems
 - Cache stampede / thundering herd => Cache expires, Database suddenly receives huge load.
   - If this is for one key, i.e. a key expire and 10k request comes for that key and try to call db and update same 
     - Solve same using distributed locking
