@@ -1,3 +1,14 @@
+## SDK vs Java
+- In Java development (especially within IDEs like JetBrains IntelliJ IDEA), the SDK (Software Development Kit / JDK) represents the physical tools and compiler used to build your application, while the Language Level dictates the specific syntax rules and coding assistance available in the code editor.
+- The primary reason to separate these two settings is downward compatibility. You can use a newer SDK alongside a lower Language Level.
+  -  You install JDK 21 as your SDK to benefit from the latest compiler optimizations and security patches. However, your production servers only run Java 17.
+
+|Feature| Project SDK (JDK)|Language Level |
+|-|-|-|
+|What it is|The actual installation of the Java Development Kit (e.g., JDK 21, JDK 17).| A configuration setting that limits or allows specific Java syntax features.|
+|Purpose|Provides the tools to compile, package, run, and debug the application.|Determines what code patterns the IDE allows you to write without throwing syntax errors.|
+|Control Scope|Defines the maximum technical capabilities and standard libraries available.|Controls IDE Intellisense, refactoring suggestions, and target bytecode compatibility.|
+
 ## Why Kotlin over Java?
 - Less boilerplate
 - Null safety
@@ -81,3 +92,5 @@ Popular for:
 - Automation scripts
 
 Groovy is widely used in Gradle and Jenkins ecosystems.
+
+
