@@ -18,6 +18,7 @@ This guide is prepared with help of hellointerview
   - ``` SELECT * FROM posts WHERE content LIKE '%database%';```
     - Here, we're looking for posts that contain the word "database" anywhere in their content - not just posts that start or end with it. Even with a B-tree index on the content column, the database can't use the index at all. Why? B-tree indexes can only help with prefix matches (like 'database%') or suffix matches (if you index the reversed content). When the pattern could match anywhere within the text, the database has no choice but to check every character of every post, reading entire text fields into memory to look for matches. 
   - Text search like used in elastic-search
+  - Postgres supports full-text search out of the box using GIN (Generalized Inverted Index) indexes. GIN indexes work like the index at the back of a book - they store a mapping of each word to all the locations where it appears. 
 
 ## Hash Tree Index
   - In-memory index, basically key-value pair used in redis/memcache.
