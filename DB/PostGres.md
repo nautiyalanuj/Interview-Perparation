@@ -1,4 +1,15 @@
-## PostgreSQL vs Mysql
+# Limits
+ - Tables start getting unwieldy past 100M rows
+ - Full-text search works well up to tens of millions of documents
+ - Complex joins become challenging with tables >10M rows
+ - Performance drops significantly when working set exceeds available RAM
+ - Simple inserts: ~5,000 per second per core
+ - Updates with index modifications: ~1,000-2,000 per second per core
+ - Complex transactions (multiple tables/indexes): Hundreds per second
+ - Simple indexed lookups: tens of thousands per second per core (often 50k+)
+ - Multi-table joins with indexes: thousands to tens of thousands per second
+
+# PostgreSQL vs Mysql
 - Better SQL Standards Support
 - More Advanced Query Optimizer
   - Postgres Handle complex query better
@@ -34,7 +45,10 @@
     - Support Geospatial Search with PostGIS
     - Support vector search for AI.
 
-## Materialized views
+# Other
+- PostgreSQL forks a new OS process for each connection, so hundreds of connections consume significant memory and CPU for context switching. In practice, you'll want a connection pooler (like PgBouncer) in front of PostgreSQL to multiplex application connections onto a smaller pool of database connections. This is especially important when running many application instances.
+
+# Materialized views
 - Example
 ```
 CREATE MATERIALIZED VIEW monthly_sales AS
