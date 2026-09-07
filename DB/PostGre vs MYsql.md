@@ -29,6 +29,10 @@
  
 - Extensibility
   - Custom data types, functions, operators and extensions
+    - Support text search using GIN and tsvector
+    - Support json using GIN and jsonb
+    - Support Geospatial Search with PostGIS
+    - Support vector search for AI.
 
 ## Materialized views
 - Example
