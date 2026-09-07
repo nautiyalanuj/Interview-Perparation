@@ -29,3 +29,13 @@ This guide is prepared with help of hellointerview
 
 ## Hash Tree Index
   - In-memory index, basically key-value pair used in redis/memcache.
+
+# Index for Query Optimization
+## Covering Index
+- Special type of index were data is stored with index itself, thus saving latency.
+
+## Partial Index
+- Sometimes you only need to index a subset of your data. For example, in our social media platform, most queries are probably looking for active users, not deleted ones:
+  ``` CREATE INDEX idx_active_users 
+ON users(email) WHERE status = 'active';
+```
