@@ -47,6 +47,10 @@
 
 # Other
 - PostgreSQL forks a new OS process for each connection, so hundreds of connections consume significant memory and CPU for context switching. In practice, you'll want a connection pooler (like PgBouncer) in front of PostgreSQL to multiplex application connections onto a smaller pool of database connections. This is especially important when running many application instances.
+- Partition
+  - For large tables, partitioning can improve both read and write performance by splitting data across multiple physical tables. The most common use case is time-based partitioning.
+  - Why does this help writes? First, different database sessions can write to different partitions simultaneously, increasing concurrency. Second, when data is inserted, index updates only need to happen on the relevant partition rather than the entire table.
+  - Conveniently, it also helps with reads. When users view recent posts, PostgreSQL only needs to scan the recent partitions. No need to wade through years of historical data.
 
 # Materialized views
 - Example
