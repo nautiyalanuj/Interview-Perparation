@@ -13,10 +13,10 @@
 - When two keys need to live together, hash tags make it happen. Only the part of the key inside {braces} gets hashed, so {user:123}:posts and {user:123}:likes always land in the same slot, ready for a MULTI transaction across both.
 - In cluster mode, a client issues READONLY on its connection to allow replica reads, and most client libraries expose this as a flag.
 
-# Use-case
 
+# Use-case
 - As Cache
-- As distributed lock
+- ***As distributed lock**
   - Used while booking the tickets
     
    ``` SET lock my-token NX EX 30 ```
@@ -25,5 +25,9 @@
     - It is a pessimistic locking
     - Redis also supports optimistic concurrency control: WATCH a key, run your transaction with MULTI/EXEC, and the transaction aborts if the watched key changed in the meantime.
     
+- Redis for Leaderboards
+  - Redis' sorted sets maintain ordered data that can be queried in log time, making them a natural fit for leaderboard applications. The high write throughput and low read latency make this especially useful for scaled applications where something like a SQL DB will start to struggle.
+- Redis for Rate Limiting
+- Redis for Proximity Search
 - As pub-sub
   - Socket.io uses same for maintaining groups.  
