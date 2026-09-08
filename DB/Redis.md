@@ -70,3 +70,25 @@
 ### When not to use it
 - Financial Transactions (e.g., Booking a hotel seat, transferring money, inventory checkout counters)
 - Stateful Cluster Coordination (e.g., Electing a leader node to manage a distributed cluster or database shards)
+
+## Redis Sorted Set
+- A Redis Sorted Set (ZSET) is a data structure that combines the uniqueness of a Set with the ordering capabilities of a List. Every member in a Sorted Set is a unique string mapped to a floating-point number called a score. Redis automatically maintains the collection in sorted order based on these scores. If two members have the same score, they are ordered lexicographically (alphabetically).
+- Internally, Redis optimizes Sorted Sets using a dual-ported data structure consisting of a hash table (for O(1) lookups) and a skip list (for \(O(log N)\) range operations)
+- Common Usecase
+  - Real-Time Leaderboards
+    ```
+      # Add players and their initial scores
+      ZADD game_leaderboard 4500 "PlayerAlpha"
+      ZADD game_leaderboard 5200 "PlayerBeta"
+      ZADD game_leaderboard 3100 "PlayerGamma"
+      
+      # Player Alpha completes a quest and earns points
+      ZINCRBY game_leaderboard 1000 "PlayerAlpha"
+      
+      # Fetch the top 3 players with their scores
+      ZREVRANGE game_leaderboard 0 2 WITHSCORES
+
+    ```
+  - Rate Limiting (Sliding Window)
+  - Priority Queues
+    - Sorted sets can serve as a queue where tasks are assigned a priority weight as the score. Workers can continuously pull the highest or lowest priority items using ZRANGE paired with ZREM (or atomically via ZPOPMIN / ZPOPMAX) 
