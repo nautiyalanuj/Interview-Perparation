@@ -7,7 +7,9 @@
 # Alternative to caching
 - Database indexing.
   - Move from slow query + Redis => Optimized query + Index
-- Read replicas => Good when the problem is database read scale
+- Read replicas
+  - Good when the problem is database read scale
+  - Note if data is skewed than caching make sense, but if data is distributed evenly that means we will have to store all data in memory and thus replica wins.
 - Materialized views / precomputed results
   - Instead of recalculating expensive queries: store results periodically.
   - Great for Dashboards, Reporting and Analytics
