@@ -9,11 +9,13 @@
 ## How does each server knows get those hot keys?
   - Server can get data by using pub/sub for redis, so hot key detector keep on pushing the latest data.
   - Or calling hot key detector periodically in background
-  - **Never put anything on the critical request path that can be cached locally.**
+  - Design philosophy - **Never put anything on the critical request path that can be cached locally.**
     - Hot Key Metadata, routing tables, shard maps, feature flags, and hot-key information are usually pushed to servers rather than fetched on every request.
 
 ## Now each server knows hot keys, how does duplicating keys work now??
-- So now server know which are the hot keys,so whenever request come in case of duplication, a server can randomly ask any shard for the data. 
+- So now server who has to write has to add/update/invalidate all the shards where hot key is stored.
+- So now server who is reading hot keys can randomly ask any shard for the data.
+- So we have made read cheaper and write costlier with this
 
 ## In case of expiry how cache stampede problem is solved?
 - Request coalescing protects the database when a hot key experiences a cache miss.
