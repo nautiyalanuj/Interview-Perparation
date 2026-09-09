@@ -4,7 +4,6 @@
 
 ## How do we identify hot keys?
 - We track request frequency using metrics or streaming analytics. Keys exceeding a request threshold over a sliding time window are classified as hot.
-- These hot keys are proactively refreshed and promoted to higher cache tiers such as in-memory caches.
 - We can some hot key detector service.
 
 ## How does each server knows get those hot keys?
