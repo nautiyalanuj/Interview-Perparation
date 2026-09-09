@@ -25,7 +25,7 @@
 - Imagine 500 million user and we proactively refresh every key. We would destroy your database as most of the key will never be read again.
 - Thus, background refresh works best for hot keys.
 
-## But as you mentioned above we can do proactive refresh, then do we need  request coalescing?
+## But as you mentioned above we can do proactive refresh of hot keys, then why do we need  request coalescing?
 - What happen if say redis restarted?
 - What if background refresh somehow fails?
 - what is the key somehow got evicted/deleted?
