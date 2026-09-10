@@ -60,7 +60,21 @@ Typical questions:
 - Prometheus is a specialized time-series database built for monitoring and observability.
 - Store measurements over time.
 - Calculate trends and aggregates.
-- Power dashboards and alerts.
+- Power dashboards and alerts using grafana
+- Support very efficient QL i.e. promQL
+- What happens when Prometheus storage becomes too large?
+  - Prometheus + Thanos
+  - Prometheus + VictoriaMetrics
+- Standard observability layer which you'll see most often in cloud-native, Kubernetes-based production systems.
+  ```
+  Application
+      ↓
+  OpenTelemetry
+      ↓
+  Prometheus/Mimir/VictoriaMetrics
+      ↓
+  Grafana
+  ```
 
 
 ### Example Queries
