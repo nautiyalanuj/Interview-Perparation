@@ -1,0 +1,19 @@
+- Infrastructure metrics
+  -  Prometheus
+  -  InfluxDB
+  -  TimescaleDB
+- Vehicle tracking / GPS history
+  - TimescaleDB
+  - InfluxDB
+  - Cassandra
+- Real-time nearby searches
+  - Redis GEO
+  - PostGIS
+  - Elasticsearch
+- Uber
+  - Users/Trips => MySQL or Distributed SQL
+  - Location History => Cassandra-like storage
+  - Current Locations => Redis / Geospatial Services
+  - Metrics => Prometheus
+  - Logs => Elasticsearch/OpenSearch
+  - Analytics => Data Lake + Spark
