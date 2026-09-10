@@ -17,3 +17,23 @@
   - Metrics => Prometheus
   - Logs => Elasticsearch/OpenSearch
   - Analytics => Data Lake + Spark
+- What interviewers want
+```
+Need transactions?
+→ Postgres
+
+Need search?
+→ Elasticsearch
+
+Need metrics?
+→ Prometheus
+
+Need nearest drivers?
+→ Geospatial index
+
+Need billions of events?
+→ Cassandra or ClickHouse
+
+Need caching?
+→ Redis
+```
