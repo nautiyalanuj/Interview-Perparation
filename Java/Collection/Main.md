@@ -1,10 +1,15 @@
 # Supported
-- Stack as Stack
-- Queue 
+- Stack
+  - ArrayDeque  (resizable, circular array)(default)
+  - Stack (Legacy)
+- Queue
+  - ArrayDeque   (resizable, circular array)(default)
+- Double link List /Linked List
+  - ArrayDeque  (resizable, circular array)(default)
+  - LinkedList
 - Map as HashMap 
 - Set as HashSet
 - Heap as PriorityQueue
-- Double link List /Linked List as LinkedList
 - Array
   - 2d array
 - Balanced Tree
