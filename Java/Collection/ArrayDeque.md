@@ -1,8 +1,7 @@
 - Same is default used for queue, linkedlist and stack.
 - Same is developed as resizable, circular array
 - Cache Locality (The Biggest Performance Factor)
-  - Modern CPUs rely heavily on L1/L2/L3 caches. When you access an element in an array (ArrayDeque), the CPU automatically loads adjacent elements into the ultra-fast cache.
-  -  
+  - Modern CPUs rely heavily on L1/L2/L3 caches. When you access an element in an array (ArrayDeque), the CPU automatically loads adjacent elements into the ultra-fast cache. 
 
 
 |Operation | ArrayDeque| LinkedList | Why They Differ|
@@ -46,3 +45,9 @@
 |Remove from Head| O(1)| O(n) (Shifts all elements)| O(1)| O(n) (Shifts elements)|
 |Remove from Tail| O(1)| O(1)| O(1)| O(1)|
 |Random Access (get(i))| ❌ N/A| O(1) (Direct index)| O(n) (Must traverse)| O(1)|
+
+
+- Strictly speaking, random access is computationally possible in an ArrayDeque in O(1) time because the underlying data structure is a standard Java array.However, random access is not allowed because the Java architects intentionally left index-based methods (get(i), set(i, el)) out of the interface design.
+- ArrayDeque implements the Deque (Double-Ended Queue) interface, not the List interface.
+  - The pure definition of a Stack or Queue is to restrict access exclusively to the endpoints (the front and the back).
+  - Adding methods like get(index) would violate the core semantic contract of what a Queue or Deque is supposed to do. If you need a structural contract that guarantees random access, Java provides the List interface (implemented by ArrayList).
