@@ -1,4 +1,5 @@
 # Stack
+- LinkedList
 
 # Queue
 
@@ -7,16 +8,18 @@
 # HashSet
 
 # Heap
+- PriorityQueue
 
-# Linklist
-
-# Double link List
+# Double link List /Linked List
+- LinkedList
 
 # Array
 
 # 2d array
 
 # Balanced Tree
+- TreeSet
+- TreeMap
 
 # String
 
