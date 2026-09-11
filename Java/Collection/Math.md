@@ -1,0 +1,3 @@
+- Integer.MIN_VALUE 
+- Integer.MAX_VALUE
+- Integer.parseInt()
