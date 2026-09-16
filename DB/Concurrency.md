@@ -1,4 +1,7 @@
-# Interview
+# Interview or Crux
+- Just check [Concurrency](https://www.hellointerview.com/learn/courses/system-design/lesson/contention/dealing-with-contention) page in hellointerview
+
+# Isolation level
 - Isolation Levels define the rules of what data a transaction can see;
 - Isolation level determines how transactions interact with each other's uncommitted or committed changes.
 - The specific property that stops concurrency issues (classic bank issue) is Isolation level and is solved in serializable.
@@ -189,7 +192,7 @@ If a serialization conflict occurs, one transaction may be rolled back and must 
   - For standard operations, PostgreSQL operates optimistically. It assumes conflicts are rare and tries to avoid locking the database.
     - No Read Locks: Readers never block writers, and writers never block readers. [1] (https://vladmihalcea.com/optimistic-vs-pessimistic-locking/)
     - Row Versioning: When a row is updated, Postgres does not overwrite it or lock out readers. It creates a new version of the row. Concurrent transactions simply read older, committed versions.
-    - erializable Isolation (SSI): At the SERIALIZABLE level, Postgres uses a fully optimistic approach called Serializable Snapshot Isolation. It lets transactions execute completely without blocking, checks for conflicts right before committing, and aborts the transaction if a write skew is found
+    - Serializable Isolation (SSI): At the SERIALIZABLE level, Postgres uses a fully optimistic approach called Serializable Snapshot Isolation. It lets transactions execute completely without blocking, checks for conflicts right before committing, and aborts the transaction if a write skew is found
 - The Pessimistic Reality: Row Updates (Write vs. Write)
   - When two transactions try to update or delete the exact same row at the same time, Postgres shifts to a pessimistic strategy
     - Implicit Row Locks: Postgres will automatically place a strict, pessimistic lock on that specific row.
