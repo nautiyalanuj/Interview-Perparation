@@ -1,5 +1,6 @@
 
 # How google doc works?
+- Note google uses HTTP/3 for same.
 - Google Docs actually relies on a hybrid model: it uses HTTP requests (XHR/Fetch) for outbound user actions, but relies on streaming HTTP connections (long-polling) rather than simple short-polling for real-time sync.
 - **bind?...** (HTTP Long-Polling): This persistent request at the top is Google's proprietary channel (often called Channel API or BrowserChannel). Instead of standard WebSockets, Google uses a long-lived HTTP connection where the server holds the response open to stream incoming document edits from other users in real time.
 - **save?...** (HTTP POST/Fetch): Triggered whenever you make changes (typing, formatting). Your local operational transformation (OT) diffs are sent to the server via standard HTTP requests.
