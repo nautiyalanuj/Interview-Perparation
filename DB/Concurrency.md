@@ -1,179 +1,67 @@
-# Interview -
+# 1. Interview
 - Just check [Concurrency](https://www.hellointerview.com/learn/courses/system-design/lesson/contention/dealing-with-contention) page in hellointerview
 
-# Isolation level
-- Isolation Levels define the rules of what data a transaction can see;
-- Isolation level determines how transactions interact with each other's uncommitted or committed changes.
-- The specific property that stops concurrency issues (classic bank issue) is Isolation level and is solved in serializable.
-
-  
-# Common Problems
-
-|Isolation Level| Dirty Reads | Non-Repeatable Reads| Phantom Reads| Write Skew|
-|-|-|-|-|-|
-|Read Uncommitted|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|
-|Read Committed|✅ Solved|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|
-|Repeatable Read|✅ Solved|✅ Solved|✅ Solved (In Postgres through MVCC snapshots)|⚠️ Allowed|
-|Serializable|✅ Solved|✅ Solved|✅ Solved|✅ Solved|
-
-## 1. Dirty Read
-
-Transaction A updates a value but does not commit:
-
-```sql
-UPDATE account
-SET balance = 500;
-```
-
-Transaction B reads the value before A commits.
-
-If Transaction A later rolls back, Transaction B has read invalid data.
-
-## 2. Non-Repeatable Read
-
-Transaction A reads a row:
-
-```sql
-SELECT balance FROM account;
-```
-
-Result:
-
-```text
-1000
-```
-
-Transaction B updates and commits:
-
-```sql
-UPDATE account
-SET balance = 1200;
-COMMIT;
-```
-
-Transaction A reads again:
-
-```sql
-SELECT balance FROM account;
-```
-
-Result:
-
-```text
-1200
-```
-
-The same query returned a different result within the same transaction.
-
-## 3. Phantom Read
-
-Transaction A executes:
-
-```sql
-SELECT COUNT(*)
-FROM orders
-WHERE amount > 1000;
-```
-
-Result:
-
-```text
-10 rows
-```
-
-Transaction B inserts a matching row and commits.
-
-Transaction A runs the query again and gets:
-
-```text
-11 rows
-```
-
-A new row has appeared, creating a phantom read.
-
-## Write Skew 
-- A write skew anomaly happens when two concurrent transactions read the same data, calculate overlapping rules, and modify different rows. Neither transaction sees the other's changes, breaking a global system rule.
-- Example
-  - Imagine a hospital rule: "At least one doctor must remain active on call."Doctors Alice and Bob are currently on call. Both try to check out at the exact same time.
-    ``` SELECT COUNT(*) FROM shifts WHERE status = 'active'; -- Returns 2 for both ```
+# 2. Concurrency Control
+- **When does db actually lock the row, at start of transaction or basically whenever it find some write needs to be done or at the end when it need to commit and start taking lock**
+  - Deferring all row locking until COMMIT time is actually a real database design strategy called Optimistic Concurrency Control (OCC), whereas engines like PostgreSQL and InnoDB use Pessimistic Concurrency Control (PCC).
+  - Instead of locking rows to prevent conflicts during execution, OCC defers all checks to a validation phase at COMMIT and relies on isolated workspaces.
 
 ---
 
-# Isolation Levels
+### A. How OCC Prevents Dirty Writes and Corrupted State
+- **Dirty Writes**: Transaction B could modify the exact same row half a second later, overwriting Transaction A's uncommitted work mid-transaction.
+- **Corrupted State**: Subsequent SQL queries within Transaction A would see inconsistent state or invalid calculations because another transaction altered the row mid-flight.
 
-## 1. Read Uncommitted
+**Pessimistic approach:** Locks rows live in shared storage so no one else can touch them while mid-transaction.
 
-- Lowest isolation level.
-- Allows:
-  - Dirty Reads
-  - Non-Repeatable Reads
-  - Phantom Reads
-- Rarely used in production systems.
+**OCC approach:** Transactions never modify shared production data while running.
 
----
-
-## 2. Read Committed
-
-- Default isolation level in PostgreSQL.
-- Prevents:
-  - Dirty Reads
-- Allows:
-  - Non-Repeatable Reads
-  - Phantom Reads
-
-Example:
-
-Only committed data can be read. If another transaction commits changes while the current transaction is running, later queries may observe those changes.
+* **Private Workspace (Shadow Copies):** When a transaction runs `UPDATE` or `DELETE`, it writes changes to a **private, isolated buffer** (local memory or a temporary snapshot).
+* **Zero Production Impact:** The shared database state remains untouched during statement execution, so Dirty Writes cannot happen—other transactions simply don't see or touch these pending changes.
+* **Atomic Validation at Commit:** At `COMMIT`, OCC enters a brief, atomic validation step. If no other transaction modified those same rows while this transaction was running, the private workspace changes are flushed to the actual database all at once.
 
 ---
 
-## 3. Repeatable Read
+### B. How OCC Handles "Wasted Work" and Collisions
 
-- Prevents:
- - Dirty Reads
- - Non-Repeatable Reads
-- PostgreSQL uses MVCC snapshots, allowing a transaction to see a consistent snapshot of the database.
+**Pessimistic approach:** Forces transactions to wait/block early so work isn't wasted at the end.
 
-Example:
+**OCC approach:** Accepts the risk of wasted work as a trade-off for zero locking overhead.
 
-```sql
+* **The Optimistic Premise:** OCC assumes that **conflicts are rare** (e.g., millions of users editing *different* profile pages or shopping items). Under low contention, 99%+ of transactions validate successfully on the first try without ever waiting on a lock.
+* **Abort and Retry:** If a conflict *does* occur (Transaction B committed an update to row `100` while Transaction A was still working on its private buffer), Transaction A fails validation at `COMMIT`.
+* **The Trade-Off:** Transaction A’s work is discarded and rolled back. The application receives a serialization error and simply retries the entire transaction. You trade CPU/time on rare retries to get massive throughput gains when collisions are low.
+
+---
+
+### C. How OCC Ensures Read Consistency Within the Same Transaction
+- In standard SQL, a transaction expects to see its own updates. If you run:
+```
 BEGIN;
-SELECT balance; -- 1000
-
--- Another transaction updates balance to 2000 and commits
-
-SELECT balance; -- still 1000
-COMMIT;
+UPDATE inventory SET stock = stock - 1 WHERE id = 100; -- Executed at T1
+SELECT stock FROM inventory WHERE id = 100;            -- Executed at T2
 ```
+- At T2, the SELECT query must return the updated stock value. To guarantee that no other transaction interferes with row 100 between T1 and COMMIT, the row must be locked immediately at T1.
+
+**Pessimistic approach:** Locks the row so it stays unchanged between `UPDATE` and subsequent `SELECT` calls.
+
+**OCC approach:** Reads from a combination of the base snapshot and the transaction's own local buffer.
+
+* **Local Read Merging:** When a transaction executes `UPDATE inventory SET stock = stock - 1` followed by `SELECT stock`, the database engine queries its **private workspace first**.
+* **Self-Consistency:** It sees its own uncommitted changes in local memory and returns the modified `stock` value to the application code.
+* **Snapshot Isolation:** For all other unmodified rows, it reads from a point-in-time snapshot of the database created when the transaction started.
 
 ---
 
-## 4. Serializable
+### Summary Comparison
 
-- Highest isolation level.
-- Prevents:
-  - Dirty Reads
-  - Non-Repeatable Reads
-  - Phantom Reads
-- The database guarantees a result equivalent to transactions running one after another.
+| Problem | Pessimistic Approach (PostgreSQL / MySQL) | Optimistic Approach (DynamoDB / Custom App Logic) |
+| --- | --- | --- |
+| **Data Modifications** | Modifies shared data in place **immediately** (requires row locks). | Modifies a **private local workspace** (no locks needed). |
+| **Handling Conflicts** | **Wait early:** Blocks transactions when lock collisions occur mid-flight. | **Abort late:** Aborts and retries at `COMMIT` if data changed concurrently. |
+| **Read Consistency** | Holds row locks to prevent concurrent updates. | Merges base database snapshot with local uncommitted buffer. |
+| **Best Workload** | **High Contention:** Frequent updates to the same rows (e.g., inventory counts, bank balances). | **Low Contention:** Mostly reads, or updates to distinct rows (e.g., user profiles, document editing). |
 
-Example:
-
-```text
-T1 then T2
-```
-
-or
-
-```text
-T2 then T1
-```
-
-If a serialization conflict occurs, one transaction may be rolled back and must be retried.
-
----
-
-# Locking/ Concurrency Control
 
 ## Pessimistic Locking
 - Pessimistic concurrency control assumes that conflicts between transactions are likely. So, before a transaction performs operations on data, it acquires locks to prevent other transactions from accessing the same data in a conflicting way.
@@ -198,7 +86,8 @@ If a serialization conflict occurs, one transaction may be rolled back and must 
     - Implicit Row Locks: Postgres will automatically place a strict, pessimistic lock on that specific row.
     - Blocking: The second transaction does not fail or abort immediately. Instead, it is forced to pause and wait (block) until the first transaction either commits or rolls back
 
-# Fencing Token
+
+# 3. Fencing Token (Distributed Lock Problem)
 - The problem : Without fencing tokens, distributed locks fail when a client experiences a garbage collection (GC) pause, network lag, or process freeze.
 ```
 Client 1                   Lock Service (etcd/ZooKeeper)              Storage (Database)
@@ -267,3 +156,177 @@ WHERE resource_id = 'A1'
 ### Do NOT Use Fencing Tokens When:
 - A standard database query or OCC handles the job: Adding ZooKeeper or etcd just to guard a database write adds unnecessary operational complexity and infrastructure overhead.
 - Your storage layer cannot validate incoming tokens: If the target system (e.g., a simple S3 file upload without headers or a third-party API) has no mechanism to evaluate incoming_token > highest_seen_token, a fencing token loses its protective guarantee.
+
+
+ 
+# 4. Common Problems
+
+|Isolation Level| Dirty Reads | Non-Repeatable Reads| Phantom Reads| Write Skew|
+|-|-|-|-|-|
+|Read Uncommitted|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|
+|Read Committed|✅ Solved|⚠️ Allowed|⚠️ Allowed|⚠️ Allowed|
+|Repeatable Read|✅ Solved|✅ Solved|✅ Solved (In Postgres through MVCC snapshots)|⚠️ Allowed|
+|Serializable|✅ Solved|✅ Solved|✅ Solved|✅ Solved|
+
+## Dirty Read
+
+Transaction A updates a value but does not commit:
+
+```sql
+UPDATE account
+SET balance = 500;
+```
+
+Transaction B reads the value before A commits.
+
+If Transaction A later rolls back, Transaction B has read invalid data.
+
+## Non-Repeatable Read
+
+Transaction A reads a row:
+
+```sql
+SELECT balance FROM account;
+```
+
+Result:
+
+```text
+1000
+```
+
+Transaction B updates and commits:
+
+```sql
+UPDATE account
+SET balance = 1200;
+COMMIT;
+```
+
+Transaction A reads again:
+
+```sql
+SELECT balance FROM account;
+```
+
+Result:
+
+```text
+1200
+```
+
+The same query returned a different result within the same transaction.
+
+## Phantom Read
+
+Transaction A executes:
+
+```sql
+SELECT COUNT(*)
+FROM orders
+WHERE amount > 1000;
+```
+
+Result:
+
+```text
+10 rows
+```
+
+Transaction B inserts a matching row and commits.
+
+Transaction A runs the query again and gets:
+
+```text
+11 rows
+```
+
+A new row has appeared, creating a phantom read.
+
+## Write Skew 
+- A write skew anomaly happens when two concurrent transactions read the same data, calculate overlapping rules, and modify different rows. Neither transaction sees the other's changes, breaking a global system rule.
+- Example
+  - Imagine a hospital rule: "At least one doctor must remain active on call."Doctors Alice and Bob are currently on call. Both try to check out at the exact same time.
+    ``` SELECT COUNT(*) FROM shifts WHERE status = 'active'; -- Returns 2 for both ```
+
+---
+
+# 5. Isolation Levels
+- Isolation Levels define the rules of what data a transaction can see;
+- Isolation level determines how transactions interact with each other's uncommitted or committed changes.
+- The specific property that stops concurrency issues (classic bank issue) is Isolation level and is solved in serializable.
+- Can we define isolation factor for a transaction in SQl db like postgres or mysql? SO, we can have repeatable-read isloation level at db level and for transaction we use serailizable and vice-versa serializable at db and transaction using repeatable-read?
+   - Yes, you can set a default isolation level globally at the database level and then override it for individual transactions using SET TRANSACTION ISOLATION LEVEL or when beginning a transaction block.
+
+## Read Uncommitted
+
+- Lowest isolation level.
+- Allows:
+  - Dirty Reads
+  - Non-Repeatable Reads
+  - Phantom Reads
+- Rarely used in production systems.
+
+---
+
+## Read Committed
+
+- Default isolation level in PostgreSQL.
+- Prevents:
+  - Dirty Reads
+- Allows:
+  - Non-Repeatable Reads
+  - Phantom Reads
+
+Example:
+
+Only committed data can be read. If another transaction commits changes while the current transaction is running, later queries may observe those changes.
+
+---
+
+## Repeatable Read
+
+- Prevents:
+ - Dirty Reads
+ - Non-Repeatable Reads
+- PostgreSQL uses MVCC snapshots, allowing a transaction to see a consistent snapshot of the database.
+
+Example:
+
+```sql
+BEGIN;
+SELECT balance; -- 1000
+
+-- Another transaction updates balance to 2000 and commits
+
+SELECT balance; -- still 1000
+COMMIT;
+```
+
+---
+
+## Serializable
+
+- Highest isolation level.
+- Prevents:
+  - Dirty Reads
+  - Non-Repeatable Reads
+  - Phantom Reads
+- The database guarantees a result equivalent to transactions running one after another.
+
+Example:
+
+```text
+T1 then T2
+```
+
+or
+
+```text
+T2 then T1
+```
+
+If a serialization conflict occurs, one transaction may be rolled back and must be retried.
+
+---
+
