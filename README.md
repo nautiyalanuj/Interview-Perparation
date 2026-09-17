@@ -3,7 +3,7 @@
   - Cassandra as backup 
 - Redis
 - Kafka
-- https://github.com/nautiyalanuj/Interview-Perparation/blob/main/FAQ.md (Work in progress)
+- [FAQ](https://github.com/nautiyalanuj/Interview-Perparation/blob/main/FAQ.md) (Work in progress)
   - Will be adding deepdive
 
 # Other
