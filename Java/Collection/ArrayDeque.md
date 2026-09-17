@@ -1,7 +1,13 @@
 - Same is default used for queue, linkedlist and stack.
 - Same is developed as resizable, circular array
 - Cache Locality (The Biggest Performance Factor)
-  - Modern CPUs rely heavily on L1/L2/L3 caches. When you access an element in an array (ArrayDeque), the CPU automatically loads adjacent elements into the ultra-fast cache. 
+  - Modern CPUs rely heavily on L1/L2/L3 caches. When you access an element in an array (ArrayDeque), the CPU automatically loads adjacent elements into the ultra-fast cache.
+ 
+- Functions
+  - isEmpty()
+  - Queue
+  - Stack
+  - Linklist 
 
 
 |Operation | ArrayDeque| LinkedList | Why They Differ|
