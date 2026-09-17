@@ -1,0 +1,2 @@
+- We say TCP is reliable, what happen if connection lost, does TCP or application level protocol say websocket provide relaibility?
+  - TCP reliability is on network, so till connection is maintained TCP will send you packet, but if connection is lost neither TCP nor websocket provide any guarantee. We would have to right our custom logic at application layer for same.
