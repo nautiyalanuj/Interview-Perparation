@@ -1,3 +1,9 @@
 - Integer.MIN_VALUE 
 - Integer.MAX_VALUE
 - Integer.parseInt()
+- Math.max(a, b) / Math.min(a, b) — Returns the larger or smaller of two values.
+- Math.abs(x) — Returns the absolute (positive) value of x.
+- Math.round(x) — Rounds x to the nearest whole integer.
+- Math.floor(x) — Rounds x down to the nearest integer.
+- Math.ceil(x) — Rounds x up to the nearest integer.
+- Math.random() — Generates a pseudo-random double value between $0.0$ (inclusive) and $1.0$ (exclusive).
