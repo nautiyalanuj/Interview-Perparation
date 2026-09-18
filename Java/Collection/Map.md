@@ -1,20 +1,3 @@
-# Java HashMap, LinkedHashMap, TreeMap, ConcurrentHashMap - Notes
-
----
-
-# Map Implementations Overview
-
-| Feature | HashMap | LinkedHashMap | TreeMap | ConcurrentHashMap |
-|----------|----------|-------------|---------|------------------|
-| Ordering | No guarantee | Insertion order / Access order | Sorted by key | No guarantee |
-| Lookup Complexity | O(1) avg | O(1) avg | O(log n) | O(1) avg |
-| Thread Safe | No | No | No | Yes |
-| Null Key | 1 allowed | 1 allowed | Not allowed | Not allowed |
-| Null Value | Allowed | Allowed | Allowed | Not allowed |
-| Internals | Hash Table | Hash Table + Doubly Linked List | Red-Black Tree | Concurrent Hash Table |
-| Typical Usage | Fast lookup | Ordered iteration, LRU cache | Sorted data | Concurrent access |
-
----
 # Functions
 - Map<String, Integer> m = new HashMap<>(); 
 - m.put("a", 1); 
@@ -32,6 +15,20 @@ for (Map.Entry<String, Integer> entry : map.entrySet())
 } 
 ```
 ---
+
+# Map Implementations Overview
+
+| Feature | HashMap | LinkedHashMap | TreeMap | ConcurrentHashMap |
+|----------|----------|-------------|---------|------------------|
+| Ordering | No guarantee | Insertion order / Access order | Sorted by key | No guarantee |
+| Lookup Complexity | O(1) avg | O(1) avg | O(log n) | O(1) avg |
+| Thread Safe | No | No | No | Yes |
+| Null Key | 1 allowed | 1 allowed | Not allowed | Not allowed |
+| Null Value | Allowed | Allowed | Allowed | Not allowed |
+| Internals | Hash Table | Hash Table + Doubly Linked List | Red-Black Tree | Concurrent Hash Table |
+| Typical Usage | Fast lookup | Ordered iteration, LRU cache | Sorted data | Concurrent access |
+
+
 
 # Why Resize?
 
