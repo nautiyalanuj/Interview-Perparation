@@ -37,19 +37,6 @@
   - Postgres has excellent implementation of MVCC where
     - Readers do not block writers.
     - Writers minimally affect readers.
- 
-- Extensibility
-  - Custom data types, functions, operators and extensions
-    - Support text search using GIN and tsvector
-    - Support json using GIN and jsonb
-    - Support Geospatial Search with PostGIS
-    - Support vector search for AI.
-    - Support Timeseries extension which is TimescaleDB  => PostgreSQL + Time-series extensions
-      -  Alternative for prometheus
-      -  Full SQL support
-      -  Joins
-      -  Relational data + metrics together
-      -  Works excellently with Grafana.
 
 # Other
 - PostgreSQL forks a new OS process for each connection, so hundreds of connections consume significant memory and CPU for context switching. In practice, you'll want a connection pooler (like PgBouncer) in front of PostgreSQL to multiplex application connections onto a smaller pool of database connections. This is especially important when running many application instances.
