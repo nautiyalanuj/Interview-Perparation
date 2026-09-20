@@ -1,7 +1,7 @@
 # Questions
 ## We say TCP is reliable, what happen if connection lost, does TCP or application level protocol say websocket provide relaibility?
   - TCP reliability is on network, so till connection is maintained TCP will send you packet, but if connection is lost neither TCP nor websocket provide any guarantee. We would have to right our custom logic at application layer for same.
-
+</BR></BR>
 ## Can kafka be used for buffering and sending message for chat like application with billion of users? i.e. using Kafka as a per-user or per-conversation message queue/inbox for offline delivery?
 ```
 User A (Sends Msg) ──► Chat API ──► Kafka Topic ──► User B Online?
@@ -28,6 +28,7 @@ User A (Sends Msg) ──► Chat API ──► Kafka Topic ──► User B Onl
     - If a user is in multiple group chats distributed across different Kafka partitions, tracking a single global "last saved offset" per user is impossible. You would need to store and commit separate offsets per partition per user, creating massive metadata overhead in your database.
   - Data Retention Conflicts
     - Kafka storage costs scale linearly to petabytes for message stored for sending to user
+</BR></BR>
 ## If our data is already stored in PostgreSQL, why can't we use PostgreSQL's built-in full-text search capabilities instead of introducing Elasticsearch? We could use multiple read replicas and perform searches directly against PostgreSQL.
 - Yes, that's a very reasonable question, and in many systems PostgreSQL full-text search is absolutely sufficient, especially in the early stages. The answer usually comes down to search requirements and scale, not whether PostgreSQL can search text. For a system like: 1-50 million records, basic keyword search, and no fancy ranking requirements; dedicated read replicas works perfectly.
 - Where Elasticsearch Starts Winning:
@@ -59,3 +60,70 @@ User A (Sends Msg) ──► Chat API ──► Kafka Topic ──► User B Onl
       - Again same problem, we will add more replicas, but Elasticsearch was designed specifically for this scaling model.
     - Replication Costs
       - Every write must be replicated to every PostgreSQL replica. Imagine:  10k writes/sec. Now every search replica receives all WAL changes, including data irrelevant to search. Elasticsearch can consume only the fields necessary for indexing.
+</BR></BR>
+
+## Can we use a Time Series DB for the ad click aggregator and let advertisers query it directly for real-time analytics instead of using an OLAP system? Time Series DBs are highly optimised for ingesting millions of log events and efficiently running aggregation queries, similar to how they're used for monitoring and metrics.
+- Flink + OLAP is usually chosen because the problem is not just real-time aggregation. It's real-time aggregation + **flexible analytics**. A TSDB excels at the first part but often struggles with the second at large scale.
+- Another major issue: **Cardinality explosion**
+  - This is probably the biggest reason. Imagine dimensions
+    ```
+      campaignId     = 1M
+      country        = 200
+      device         = 20
+      browser        = 50
+      ageGroup       = 10
+    ```
+  - Possible combinations:1M × 200 × 20 × 50 × 10 = 20 trillion combinations
+  - TSDBs maintain indexes on dimensions (tags). Very high-cardinality dimensions can become expensive. Ad-tech data is notorious for having massive cardinality:
+- **Flexible analytics**: Suppose every click event looks like 
+  ```
+  {
+    "timestamp": "...",
+    "advertiserId": 123,
+    "campaignId": 456,
+    "creativeId": 789,
+    "country": "IN",
+    "device": "Android",
+    "browser": "Chrome",
+    "ageGroup": "18-24",
+    "clickCost": 0.25
+  }
+  ```
+  - An advertiser may ask:
+    - Clicks per minute for last hour ✅
+    - CTR by country for today ✅
+    - Top campaigns in last 7 days ✅
+    - These are good TSDB workloads.
+  - But then business users ask:
+    - Compare CTR of Android vs iOS users in India who clicked after 6 PM.
+    - Join click data with campaign metadata.
+    - Join with billing data.
+    - Calculate advertiser spend across all campaigns grouped by industry.
+    - Run a dashboard with 20 filters.
+    - This starts looking more like a warehouse problem than a metrics problem.
+- Why monitoring systems can use TSDB?
+  - Monitoring data is relatively predictable. For example: cpu_usage, memory_usage, request_count, latency_p99.
+  - Queries are usually: avg(cpu_usage) by host, sum(request_count) over time.
+  - Limited dimensions, no complex joins. That's why Prometheus, VictoriaMetrics, InfluxDB etc. work so well.
+ - **(What about startups?)** - Since the product is early-stage and scale is uncertain, I would start with PostgreSQL + TimescaleDB(postgressql) because it keeps the architecture simple, supports high write throughput, time-based analytics, and real-time aggregations. I would defer Kafka, Flink, and a dedicated OLAP store until there is evidence that Postgres can no longer meet latency, throughput, or analytical requirements. This follows the principle of evolving architecture with business growth rather than designing for hypothetical scale.
+   - _Why it works initially?_
+     - Even 100M clicks/day is ~1,157 clicks/sec. A properly tuned Postgres instance can still sustain that. Its growth can be like, first introduce Aggregated tables
+      ``` 
+       Postgres
+        |
+        +--> Raw events
+        |
+        +--> Aggregated tables
+      ```
+       - For example:
+         ```
+         campaign_hourly_stats
+          ---------------------
+          hour
+          campaign_id
+          clicks
+          impressions
+          revenue
+         ```
+        - Update these tables continuously and query on same?
+    - Then may be based on bottlenecks keeps on evolving your database.
