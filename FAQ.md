@@ -62,7 +62,7 @@ User A (Sends Msg) ──► Chat API ──► Kafka Topic ──► User B Onl
       - Every write must be replicated to every PostgreSQL replica. Imagine:  10k writes/sec. Now every search replica receives all WAL changes, including data irrelevant to search. Elasticsearch can consume only the fields necessary for indexing.
 </BR></BR>
 
-## Can we use a Time Series DB for the ad click aggregator and let advertisers query it directly for real-time analytics instead of using an OLAP system? Time Series DBs are highly optimised for ingesting millions of log events and efficiently running aggregation queries, similar to how they're used for monitoring and metrics.
+## Can we use a Time Series DB for real-time analytics instead of using an OLAP system? Time Series DBs are highly optimised for ingesting millions of log events and efficiently running aggregation queries, similar to how they're used for monitoring and metrics. (Example Ad-click aggregator system)
 - Flink + OLAP is usually chosen because the problem is not just real-time aggregation. It's real-time aggregation + **flexible analytics**. A TSDB excels at the first part but often struggles with the second at large scale.
 - Another major issue: **Cardinality explosion**
   - This is probably the biggest reason. Imagine dimensions
