@@ -1,0 +1,16 @@
+- [LeetCode 75](https://leetcode.com/studyplan/leetcode-75/) Below are the tricky ones
+  - https://leetcode.com/problems/maximum-subsequence-score/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/domino-and-tromino-tiling/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/find-peak-element/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/increasing-triplet-subsequence/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/koko-eating-bananas/description/?envType=study-plan-v2&envId=leetcode-75
+- [Blind 75](https://leetcode.com/problem-list/oizxjoit/)
+- Top Interview 150 (https://leetcode.com/studyplan/top-interview-150/)
+- https://www.techinterviewhandbook.org/grind75/
+- https://leetcode.com/studyplan/top-100-liked/
+- https://medium.com/@koheiarai94/60-leetcode-questions-to-prepare-for-coding-interview-8abbb6af589e
+- https://leetcode.com/discuss/post/4583640/solved-1000-problems-here-are-some-of-my-z3e7/
+  - https://leetcode.com/problem-list/rg6texq1/ => must do medium
+  - https://leetcode.com/problem-list/rspp2t87/ => sean prashad
+- https://seanprashad.com/leetcode-patterns/
+- https://docs.google.com/spreadsheets/d/1mvlc8EYc3OVVU3X7NKoC0iZJr_45BL_pVxiJec0r94c/edit?pli=1&gid=0#gid=0
