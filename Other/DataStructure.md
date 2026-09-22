@@ -9,8 +9,8 @@
   - https://leetcode.com/problems/edit-distance/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/longest-common-subsequence/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/?envType=study-plan-v2&envId=leetcode-75
+- [Top Interview 150] (https://leetcode.com/studyplan/top-interview-150/)
 - [Blind 75](https://leetcode.com/problem-list/oizxjoit/)
-- Top Interview 150 (https://leetcode.com/studyplan/top-interview-150/)
 - https://www.techinterviewhandbook.org/grind75/
 - https://leetcode.com/studyplan/top-100-liked/
 - https://medium.com/@koheiarai94/60-leetcode-questions-to-prepare-for-coding-interview-8abbb6af589e
