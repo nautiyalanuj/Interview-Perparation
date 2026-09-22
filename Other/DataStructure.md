@@ -1,4 +1,4 @@
-- [LeetCode 75](https://leetcode.com/studyplan/leetcode-75/) Below are the tricky ones
+- [LeetCode 75](https://leetcode.com/studyplan/leetcode-75/): Below are the tricky ones
   - https://leetcode.com/problems/maximum-subsequence-score/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/domino-and-tromino-tiling/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/find-peak-element/description/?envType=study-plan-v2&envId=leetcode-75
