@@ -1,13 +1,12 @@
 - [LeetCode 75](https://leetcode.com/studyplan/leetcode-75/): Below are the tricky ones
   - https://leetcode.com/problems/maximum-subsequence-score/description/?envType=study-plan-v2&envId=leetcode-75
-  - https://leetcode.com/problems/domino-and-tromino-tiling/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/find-peak-element/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/increasing-triplet-subsequence/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/koko-eating-bananas/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/edit-distance/description/?envType=study-plan-v2&envId=leetcode-75
+  - https://leetcode.com/problems/domino-and-tromino-tiling/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/non-overlapping-intervals/description/?envType=study-plan-v2&envId=leetcode-75
-  - https://leetcode.com/problems/edit-distance/description/?envType=study-plan-v2&envId=leetcode-75
-  - https://leetcode.com/problems/longest-common-subsequence/description/?envType=study-plan-v2&envId=leetcode-75
   - https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/?envType=study-plan-v2&envId=leetcode-75
 - [Top Interview 150] (https://leetcode.com/studyplan/top-interview-150/)
 - [Blind 75](https://leetcode.com/problem-list/oizxjoit/)
