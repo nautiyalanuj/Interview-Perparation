@@ -1,0 +1,7 @@
+- By default, Java's PriorityQueue implements a **min-heap**, meaning the head of the queue is the least element with respect to the specified ordering.
+- Insertion (offer/add): $O(\log n)$
+- Removal of head (poll/remove): $O(\log n)$
+- Inspection (peek/element): $O(1)$
+- Search/Removal of arbitrary element (remove(Object)): $O(n)$
+- Max Heap
+  - PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
