@@ -4,7 +4,10 @@
 - m.get("a");                 // 1 
 - m.getOrDefault("z", 0);     // 0 
 - m.containsKey("a"); 
-- m.remove("a"); 
+- m.remove("a");
+- Upsert
+  - map.merge("count", 1, Integer::sum);  // increment or init to 1
+  - map.merge("key", "new", (old, neu) -> old + neu);  // custom combine
 - m.size(); 
 - m.putIfAbsent("a", 1); 
 - Traversal 
