@@ -7,6 +7,7 @@
 - fruits.remove(2); 
 - fruits.remove("Apple"); 
 - fruits.contains("Blueberry");
+- int index = Collections.binarySearch(sortedList, target);
 - Iterate
 ```
 for (String fruit : fruits) { System.out.println(fruit); }
