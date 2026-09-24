@@ -10,6 +10,7 @@
   - [best-time-to-buy-and-sell-stock-with-transaction-fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/?envType=study-plan-v2&envId=leetcode-75)
 - **[Top Interview 150](https://leetcode.com/studyplan/top-interview-150/):**   Below are the tricky ones
   - [zigzag-conversion](https://leetcode.com/problems/zigzag-conversion/description/ )
+  - [binary-search-tree-iterator](https://leetcode.com/problems/binary-search-tree-iterator/description/)
 - [Blind 75](https://leetcode.com/problem-list/oizxjoit/)
 - https://www.techinterviewhandbook.org/grind75/
 - https://leetcode.com/studyplan/top-100-liked/
