@@ -16,7 +16,7 @@
 - [Figma Engineering](https://lnkd.in/giEGCpqY)
 - [Instacart Engineering](https://lnkd.in/gz7rVFq5)
 - [Airbnb Engineering](https://lnkd.in/gdSuCUWM)
-- [Netflix TechBlog](https://lnkd.in/g6tvtWqe)
+- [Netflix TechBlog](https://netflixtechblog.com/)
 - [Meta Engineering](https://lnkd.in/gyFFD5AA)
 - [Uber Engineering](https://lnkd.in/g45Q_vqk)
 - [GitHub Engineering](https://lnkd.in/g9ua4u9F)
