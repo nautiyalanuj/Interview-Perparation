@@ -1,0 +1,20 @@
+- [System Design Academy](https://github.com/systemdesign42/system-design-academy)
+  - Real-world case studies, system design fundamentals & popular interview questions
+- [Coding Interview University](https://github.com/jwasham/coding-interview-university)
+  - CS fundamentals for backend interviews: data structures, algorithms & Big-O
+- [Tech Interview Handbook](https://github.com/yangshun/tech-interview-handbook)
+  - Everything from resume to negotiation
+- [F Algorithm](https://github.com/labuladong/fucking-algorithm)
+  - Cracks LeetCode by patterns, explaining why solutions work
+- [DevOps Exercises](https://github.com/bregman-arie/devops-exercises)
+  - Linux, SQL, NoSQL, Docker, Kubernetes, AWS & networking questions 
+- [Interviews](https://github.com/kdn251/interviews)
+  - Java solutions, videos & company questions in one hub
+- [Awesome Scalability](https://github.com/binhnguyennus/awesome-scalability)
+  - Maps how real companies scale backends
+- [System Design](https://github.com/karanpratapsingh/system-design)
+  - Free online book on designing systems at scale
+- [System Design Interview](https://github.com/checkcheckzz/system-design-interview)
+  - Curated list of design questions & company architecture
+- [Back-End Developer Interview Questions](https://github.com/arialdomartini/Back-End-Developer-Interview-Questions)
+  - Open-ended backend interview questions
