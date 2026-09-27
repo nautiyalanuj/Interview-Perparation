@@ -11,6 +11,8 @@
   -  Joins
   -  Relational data + metrics together
   -  Works excellently with Grafana.
+- DBOS (durable execution layered on Postgres),
+   - Similar to workflowv2 based on postgres
  
 # Text Search
 ### Native Postgres (`tsvector` + GIN) vs. `pg_search` (BM25 via ParadeDB)
