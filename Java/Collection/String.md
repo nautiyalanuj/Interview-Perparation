@@ -18,9 +18,16 @@ for (int i = 0; i < s.length(); i++) {
 
 for (char c : s.toCharArray()) { ... } 
 ```
-- StringBuilder
+- **StringBuilder**
   - append // to add at end //O(1)
   - sb.insert(0, "hello "); //O(n) insert at start
+  - deleteCharAt(index)
+    - O(n)	Shifts all characters after index via System.arraycopy
+    - deletion cost is proportional to the number of characters after the deleted position. Delete at the end = free; delete at the front = worst case.
+      - sb.deleteCharAt(sb.length() - 1);  // O(1) → "abcde"
+      - sb.deleteCharAt(0);                // O(n) → "bcde"
+  - setLength(n) - O(1) (truncate) / O(n) (extend)
+    - setLength(0) is the fastest way to clear a builder since it avoids any array copy. 
  
 - Character to string
 ```
