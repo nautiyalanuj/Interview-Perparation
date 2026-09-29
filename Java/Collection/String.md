@@ -73,7 +73,8 @@ String[] parts = csv.split(",");            // ["a","b","c"]
 "a,b;c d".split("[,; ]");                   // ["a","b","c","d"] 
 "a1b22c".split("\\d+");                     // ["a","b","c"] 
 ```
-
+- Character to string
+  - Character.toString(char)
 - Character array to string 
 
 char[] alphabet = {'h', 'e', 'l', 'l', 'o'};  
