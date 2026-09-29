@@ -46,8 +46,8 @@
 - Length => arr.length
 - Sort
   - Arrays.sort(arr);
-  - Arrays.sort(arr, Collections.reverseOrder()); //Descending Order
-- Binary search => int index = Arrays.binarySearch(numbers, 30); 
+  - Arrays.sort(arr, Comparator.reverseOrder()); //Descending Order
+- Binary search => int index = Arrays.binarySearch(numbers, 30, Comparator.naturalOrder()); 
 - Convert String to char array
   - s.toCharArray()
 - Convert Array to String
