@@ -4,35 +4,23 @@
 - fruits.add("Apple"); 
 - fruits.get(0); 
 - fruits.set(1, "Blueberry"); 
-- fruits.remove(2);
-  - O(n)  
-- fruits.remove("Apple");
-  - O(n) 
-- fruits.contains("Blueberry");
-  - O(n) 
+- fruits.remove(2); // O(n)  
+- fruits.remove("Apple"); // O(n) 
+- fruits.contains("Blueberry"); // O(n) 
 - int index = Collections.binarySearch(sortedList, target);
-- size()
-  - Length 
+- size() // Length 
 - Iterate
-```
-for (String fruit : fruits) { System.out.println(fruit); }
+    ```
+    for (String fruit : fruits) { System.out.println(fruit); }
+    Lambda => fruits.forEach(fruit -> System.out.println(fruit));
+    ```
+- LinkedList 
+  - [ArrayDeque](https://github.com/nautiyalanuj/Interview-Perparation/blob/main/Java/Collection/ArrayDeque.md)
 
-Lambda => fruits.forEach(fruit -> System.out.println(fruit));
-```
+- Immutable List (Java 9+) : Great for read-only fixed data. You cannot add or remove elements. 
+  - List<String> fixedList = List.of("One", "Two", "Three"); 
 
-# LinkedList 
-- Doubly-linked list, no single linked list in Java
-- Frequent insertions or deletions from the middle, beginning, or end. 
-- Fast modifications anywhere 
-- Slow random access (must traverse elements) 
-
-# Immutable List (Java 9+) 
-- Great for read-only fixed data. You cannot add or remove elements. 
-- List<String> fixedList = List.of("One", "Two", "Three"); 
-
-# Fixed-Size List 
-
-- Backed by an array. You can modify existing elements, but you cannot change the list's size. 
-- List<String> fixedSize = Arrays.asList("Red", "Green", "Blue"); 
+- Fixed-Size List : Backed by an array. You can modify existing elements, but you cannot change the list's size. 
+  - List<String> fixedSize = Arrays.asList("Red", "Green", "Blue"); 
 
 
