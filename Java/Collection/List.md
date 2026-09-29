@@ -8,6 +8,15 @@
 - fruits.remove("Apple"); // O(n) 
 - fruits.contains("Blueberry"); // O(n) 
 - int index = Collections.binarySearch(sortedList, target);
+  - int index = Collections.binarySearch(list, key, [comparator](https://github.com/nautiyalanuj/Interview-Perparation/blob/main/Java/Collection/Comparator.md));
+
+```
+  class Fruit {
+    String name;
+    int price;
+  }
+  Comparator<Fruit> priceComparator = Comparator.comparingInt(f -> f.price);
+  ```
 - size() // Length 
 - Iterate
     ```
