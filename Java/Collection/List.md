@@ -4,9 +4,12 @@
 - fruits.add("Apple"); 
 - fruits.get(0); 
 - fruits.set(1, "Blueberry"); 
-- fruits.remove(2); 
-- fruits.remove("Apple"); 
+- fruits.remove(2);
+  - O(n)  
+- fruits.remove("Apple");
+  - O(n) 
 - fruits.contains("Blueberry");
+  - O(n) 
 - int index = Collections.binarySearch(sortedList, target);
 - size()
   - Length 
