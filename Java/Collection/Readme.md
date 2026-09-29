@@ -1,5 +1,3 @@
-<img width="1024" height="931" alt="image" src="https://github.com/user-attachments/assets/dbdefb65-4787-44af-bdb5-38632dccdfcb" />
-
 # Supported
 - Stack
   - ArrayDeque  (resizable, circular array)(default)
@@ -33,3 +31,7 @@
 # Not Supported
 - Trie
 
+# Other
+- Collections doesn't support raw type i.e. char, int, bool etc. 
+
+<img width="1024" height="931" alt="image" src="https://github.com/user-attachments/assets/dbdefb65-4787-44af-bdb5-38632dccdfcb" />
